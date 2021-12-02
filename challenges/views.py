@@ -1,5 +1,5 @@
-from django.http import response
-from django.http.response import HttpResponseNotFound, HttpResponseRedirect
+
+from django.http.response import HttpResponseNotFound, HttpResponseRedirect, Http404
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from django.urls import reverse
@@ -32,7 +32,7 @@ def monthly_challenge_by_number(request, month):
         redirect_path = reverse("month-challenge", args=[redirect_month])
         return HttpResponseRedirect(redirect_path)
 
-    return HttpResponseNotFound("This month is not supported yet ")
+    raise Http404()
 
 
 def monthlychallenge(request, month):
@@ -46,4 +46,5 @@ def monthlychallenge(request, month):
         })
 
     except:
-        return HttpResponseNotFound("This month is not supported")
+        #  looks automaticly in the base templates for a 404 page
+        raise Http404()
